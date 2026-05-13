@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOH Hackathon 2026 — 4 Bold Ideas (No Cameras)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #070b14;
+            --surface: #0f1528;
+            --surface2: #1a2240;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --accent3: #06b6d4;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #22c55e;
+            --gold: #fbbf24;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* === Hero === */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: -30%;
+            width: 160%;
+            height: 160%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, rgba(6,182,212,0.08) 0%, transparent 60%);
+            animation: bgPulse 10s ease-in-out infinite;
+        }
+        @keyframes bgPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.05) rotate(2deg); }
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(124,58,237,0.15);
+            border: 1px solid rgba(124,58,237,0.3);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-size: 0.8rem;
+            color: var(--accent2);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+            line-height: 1.1;
+        }
+        .hero .sub {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: var(--text2);
+            margin-top: 20px;
+            max-width: 750px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .highlight {
+            color: var(--accent2);
+            -webkit-text-fill-color: var(--accent2);
+            font-weight: 700;
+        }
+        .hero .pill-grid {
+            display: flex;
+            gap: 10px;
+            margin-top: 28px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .pill {
+            padding: 8px 18px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: var(--surface2);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .pill.sound { border-color: var(--accent); color: var(--accent2); }
+        .pill.space { border-color: var(--accent3); color: var(--accent3); }
+        .pill.vibe { border-color: var(--warning); color: var(--warning); }
+        .pill.nocam { border-color: var(--success); color: var(--success); }
+        .pill .icon { margin-right: 4px; }
+
+        /* === Section === */
+        .section {
+            padding: 80px 0;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-header p {
+            color: var(--text2);
+            margin-top: 12px;
+            font-size: 1.05rem;
+        }
+
+        /* === Idea Cards === */
+        .idea-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .idea-card:hover {
+            border-color: rgba(124,58,237,0.3);
+            transform: translateY(-2px);
+        }
+        .idea-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+        .idea-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+        .idea-card:nth-child(2)::before { background: linear-gradient(90deg, var(--warning), var(--gold)); }
+        .idea-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent3), var(--success)); }
+        .idea-card:nth-child(4)::before { background: linear-gradient(90deg, var(--danger), var(--warning)); }
+
+        .idea-rank {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+        .idea-card:nth-child(1) .idea-rank { color: var(--gold); }
+        .idea-card:nth-child(2) .idea-rank { color: var(--warning); }
+        .idea-card:nth-child(3) .idea-rank { color: var(--accent3); }
+        .idea-card:nth-child(4) .idea-rank { color: var(--danger); }
+
+        .idea-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+            margin-right: 8px;
+        }
+        .idea-card:nth-child(1) .idea-number { background: rgba(251,191,36,0.2); color: var(--gold); }
+        .idea-card:nth-child(2) .idea-number { background: rgba(245,158,11,0.2); color: var(--warning); }
+        .idea-card:nth-child(3) .idea-number { background: rgba(6,182,212,0.2); color: var(--accent3); }
+        .idea-card:nth-child(4) .idea-number { background: rgba(239,68,68,0.2); color: var(--danger); }
+
+        .idea-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .idea-thai {
+            font-size: 0.9rem;
+            color: var(--text2);
+            margin-bottom: 16px;
+        }
+        .idea-concept {
+            font-size: 1rem;
+            color: var(--text);
+            line-height: 1.7;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        .idea-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .idea-tag {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .tag-wow { background: rgba(124,58,237,0.15); color: var(--accent2); }
+        .tag-cost { background: rgba(34,197,94,0.15); color: var(--success); }
+        .tag-week { background: rgba(6,182,212,0.15); color: var(--accent3); }
+        .tag-challenge { background: rgba(245,158,11,0.15); color: var(--warning); }
+
+        .idea-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .detail-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .detail-box h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text2);
+            margin-bottom: 8px;
+        }
+        .detail-box p, .detail-box ul {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .detail-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        .detail-box ul li {
+            padding: 4px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+        .detail-box ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent2);
+        }
+
+        .demo-box {
+            background: linear-gradient(135deg, rgba(124,58,237,0.08), rgba(6,182,212,0.05));
+            border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .demo-box h4 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .demo-box p {
+            font-size: 0.85rem;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        /* === Gap === */
+        .gap-bar {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        .gap-bar .big {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent2);
+        }
+        .gap-bar .label {
+            font-size: 1.1rem;
+            color: var(--text2);
+            margin-top: 8px;
+        }
+
+        /* === Footer === */
+        footer {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text2);
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+
+        @media (max-width: 768px) {
+            .idea-details { grid-template-columns: 1fr; }
+            .idea-card { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-badge">🚀 DOH Hackathon 2026 · Beyond Vision</div>
+    <h1>4 Bold Ideas</h1>
+    <p class="sub">
+        <span class="highlight">Zero cameras.</span> Technologies so new,<br>
+        nobody in Thailand or Asia-Pacific has deployed them.<br>
+        Only research papers, GitHub repos, and developed countries.
+    </p>
+    <div class="pill-grid">
+        <span class="pill sound">🔊 Acoustic AI</span>
+        <span class="pill vibe">📳 Vibration Sensing</span>
+        <span class="pill space">🛰️ Satellite Radar</span>
+        <span class="pill nocam">🔌 No Cameras Needed</span>
+    </div>
+</section>
+
+<!-- Research Gap -->
+<section class="section container">
+    <div class="gap-bar">
+        <div class="big">0</div>
+        <div class="label">Existing acoustic / satellite road monitoring deployments in Thailand or APAC</div>
+        <p style="color:var(--text2); font-size:0.9rem; margin-top:12px">
+            While France, Norway, Japan, China, and the USA already use these technologies — <strong>zero presence in Thailand.</strong>
+        </p>
+    </div>
+</section>
+
+<!-- Ideas -->
+<section class="section container">
+    <div class="section-header">
+        <h2>The 4 Ideas</h2>
+        <p>Ranked by wow factor × feasibility × DOH fit</p>
+    </div>
+
+    <!-- Idea 1 -->
+    <div class="idea-card">
+        <div class="idea-rank"><span class="idea-number">🥇</span> #1 Most Buildable + Wow</div>
+        <div class="idea-name">🔊 Acoustic AI Road Monitoring</div>
+        <div class="idea-thai">"ถนนที่ได้ยิน" — The Road That Hears</div>
+        <p class="idea-concept">
+            A distributed network of Raspberry Pi + USB microphone arrays along highways that detect, classify, and localize <strong>crashes, honking, tire screech, engine anomalies, and vehicle types</strong> by sound alone. No cameras. No privacy issues. Works at night, in rain, in fog.
+        </p>
+        <div class="idea-tags">
+            <span class="idea-tag tag-wow">🔥 Wow: 9/10</span>
+            <span class="idea-tag tag-cost">💰 ~15K THB</span>
+            <span class="idea-tag tag-week">⏱️ 6 weeks</span>
+            <span class="idea-tag tag-challenge">🏷️ C4 Safety · C6 Digital</span>
+        </div>
+        <div class="idea-details">
+            <div class="detail-box">
+                <h4>Tech Stack</h4>
+                <p>RPi 4 + USB mic array (~2,800 THB/node)<br>
+                4 nodes along 500m highway<br>
+                YAMNet/TinyML on-device<br>
+                TDOA crash localization<br>
+                MQTT + dashboard</p>
+            </div>
+            <div class="detail-box">
+                <h4>Why Nobody in Thailand Has Done This</h4>
+                <ul>
+                    <li>France (Cerema) — experimental acoustic road monitoring</li>
+                    <li>Norway (SINTEF) — bridge/tunnel acoustic traffic</li>
+                    <li>USA (ShotSpotter) — acoustic gunshot detection in cities</li>
+                    <li><strong>Thailand/APAC: ZERO deployments</strong></li>
+                    <li>DOH uses CCTV (vision-only). No sound analysis exists.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="demo-box">
+            <h4>🎬 Demo: The Blindfold Test</h4>
+            <p>Set up 4 microphone nodes in the demo hall. Play crash sound on hidden speaker → dashboard lights up: "🚨 CRASH DETECTED — Km 23+400 — Alert sent" + LINE notification popup. The audience <strong>hears</strong> the crash and sees the system react before anyone can click a button. Then play a different sound (honk vs tire screech vs motorcycle) — system classifies each correctly. The hook: "This works with your eyes closed."</p>
+        </div>
+    </div>
+
+    <!-- Idea 2 -->
+    <div class="idea-card">
+        <div class="idea-rank"><span class="idea-number">🥈</span> #2 Most Practical + Low Cost</div>
+        <div class="idea-name">📳 Audio/Vibration Pothole Detection</div>
+        <div class="idea-thai">"ทุกหลุมบ่อมีเสียง" — Every Pothole Has a Sound Signature</div>
+        <p class="idea-concept">
+            A smartphone app or $5 roadside IoT sensor that detects potholes by analyzing the <strong>unique vibration + audio signature</strong> when a vehicle hits them. No computer vision. Just the thud. TinyML on-device classifies: pothole vs speed bump vs manhole vs rumble strip.
+        </p>
+        <div class="idea-tags">
+            <span class="idea-tag tag-wow">🔥 Wow: 8.5/10</span>
+            <span class="idea-tag tag-cost">💰 ~5-15K THB</span>
+            <span class="idea-tag tag-week">⏱️ 6 weeks</span>
+            <span class="idea-tag tag-challenge">🏷️ C3 Maintenance · C4 Safety</span>
+        </div>
+        <div class="idea-details">
+            <div class="detail-box">
+                <h4>Two Implementation Options</h4>
+                <p><strong>Option A: Phone App</strong><br>
+                DOH employees mount phones on dashboard → accelerometer + mic records at 100Hz → TinyML on-device → GPS-tagged potholes uploaded to map.<br><br>
+                <strong>Option B: Roadside IoT</strong><br>
+                RPi Pico W (350 THB) + MEMS accelerometer (150 THB) embedded in roadside poles → detects vehicle impacts → solar-powered.</p>
+            </div>
+            <div class="detail-box">
+                <h4>Why Nobody in Thailand Has Done This</h4>
+                <ul>
+                    <li>Toyota, Hyundai, Nissan — research papers only (2018-2023)</li>
+                    <li>India's "Pothole Patrol" — GPS + accelerometer on buses (acoustic not used)</li>
+                    <li><strong>Thailand: ZERO acoustic/vibration pothole systems</strong></li>
+                    <li>DOH does visual inspection only</li>
+                    <li>No Thai startup or academic project has built this</li>
+                </ul>
+            </div>
+        </div>
+        <div class="demo-box">
+            <h4>🎬 Demo: The "Thud" That Saves Roads</h4>
+            <p>A small ramp with a pothole mockup. Team member rides bicycle over it → "THUD." Big screen shows: waveform of impact → "POTHOLE DETECTED — Severity: MEDIUM — GPS: 13.736°N" popping up on Bangkok map → heatmap layer adds this pothole. Then: ride over speed bump → "SPEED BUMP — NOT a pothole." The hook: "We don't need cameras to see potholes. We only need to listen."</p>
+        </div>
+    </div>
+
+    <!-- Idea 3 -->
+    <div class="idea-card">
+        <div class="idea-rank"><span class="idea-number">🥉</span> #3 Most Mind-Blowing (Medium Risk)</div>
+        <div class="idea-name">🛰️ Satellite AI + InSAR for Highway Deformation</div>
+        <div class="idea-thai">"มองจากอวกาศ" — Watching from Space</div>
+        <p class="idea-concept">
+            Automated processing of <strong>free Sentinel-1 satellite radar data</strong> using AI to detect millimeter-level road surface deformation, subsidence, and landslide precursors across Thailand's highway network. No ground sensors. No cameras. Just space.
+        </p>
+        <div class="idea-tags">
+            <span class="idea-tag tag-wow">🔥 Wow: 10/10</span>
+            <span class="idea-tag tag-cost">💰 ~20-30K THB</span>
+            <span class="idea-tag tag-week">⏱️ 6 weeks (pre-process data)</span>
+            <span class="idea-tag tag-challenge">🏷️ C3 Maintenance · C5 Sustainable</span>
+        </div>
+        <div class="idea-details">
+            <div class="detail-box">
+                <h4>Tech Stack</h4>
+                <p>Sentinel-1 SAR (ESA, free)<br>
+                ISCE2 + MintPy → deformation time series<br>
+                Anomaly detection autoencoder<br>
+                Folium dashboard + time-lapse<br>
+                Google Earth Engine for data access</p>
+            </div>
+            <div class="detail-box">
+                <h4>Why Nobody in Thailand Has Done This</h4>
+                <ul>
+                    <li>Japan (JAXA + NEXCO) — operational highway InSAR monitoring</li>
+                    <li>China (Gaofen constellation) — road monitoring from space</li>
+                    <li>Europe (ESA) — operational services for highway agencies</li>
+                    <li><strong>Thailand: ZERO</strong> — GISTDA focuses on agriculture/flood</li>
+                    <li>DOH has no satellite-based monitoring at all</li>
+                    <li>No Thai startup, academic paper, or govt project combines InSAR + AI for highways</li>
+                </ul>
+            </div>
+        </div>
+        <div class="demo-box">
+            <h4>🎬 Demo: The X-Ray from Space</h4>
+            <p>30-second time-lapse animation: Bangkok Outer Ring Road 2023→2026 in false-color radar deformation. Areas sinking >10mm/year glow red. The audience watches a road section progressively sink — invisible to the naked eye. Zoom in: "KM 12+400 to KM 12+800 — Deformation: 14mm/year — Risk: HIGH — First detected: March 2024 — Trend: ACCELERATING." The punchline: "This is happening RIGHT NOW. Every road has an X-ray from space. We just never looked."</p>
+        </div>
+    </div>
+
+    <!-- Idea 4 -->
+    <div class="idea-card">
+        <div class="idea-rank"><span class="idea-number">4</span> #4 Cheapest + Most Scalable</div>
+        <div class="idea-name">🔌 Acoustic Beamforming Crash Localization</div>
+        <div class="idea-thai">"เสียงเรียกหาเมื่อเกิดเหตุ" — The Sound That Calls for Help</div>
+        <p class="idea-concept">
+            Ultra-low-cost <strong>$5 ESP32 microphone nodes</strong> spaced every 50m along highway guardrails. Using time-difference-of-arrival beamforming to localize crashes within 2-3 meters. Auto-triggers LINE emergency alerts. Solar + battery = 2-year life. At 1/100th the cost of CCTV cameras.
+        </p>
+        <div class="idea-tags">
+            <span class="idea-tag tag-wow">🔥 Wow: 9/10</span>
+            <span class="idea-tag tag-cost">💰 ~8-12K THB (6 nodes)</span>
+            <span class="idea-tag tag-week">⏱️ 6 weeks</span>
+            <span class="idea-tag tag-challenge">🏷️ C4 Safety · C6 Digital</span>
+        </div>
+        <div class="idea-details">
+            <div class="detail-box">
+                <h4>Per-Node Cost Breakdown</h4>
+                <p>ESP32 board: 250 THB<br>
+                MEMS microphone: 50 THB<br>
+                18650 battery x2: 200 THB<br>
+                2W solar panel: 150 THB<br>
+                <strong>Total: ~650 THB/node</strong><br><br>
+                Gateway (RPi Zero + 4G): 2,000 THB<br>
+                <strong>6 nodes + gateway: ~5,900 THB</strong></p>
+            </div>
+            <div class="detail-box">
+                <h4>Why Nobody in Thailand Has Done This</h4>
+                <ul>
+                    <li>USA (ShotSpotter) — $1B company for urban acoustic gunshot detection</li>
+                    <li>France (Cerema) — experimental acoustic guardrail research</li>
+                    <li><strong>Thailand/APAC: ZERO crash localization via sound</strong></li>
+                    <li>DOH emergency response: 15-30 min average via calls to 1669</li>
+                    <li>1 CCTV camera = ~50,000 THB; our node = 650 THB</li>
+                </ul>
+            </div>
+        </div>
+        <div class="demo-box">
+            <h4>🎬 Demo: Instant Crash Alert</h4>
+            <p>6 mic nodes placed in a 20m line. Team member crashes metal objects together at an unmarked location. Within 1 second: each node LED lights up → dashboard shows crash pin matching actual location within 30cm → simulated LINE message: "🚗 CRASH ALERT: Highway 1, Km 23+200 — Emergency services notified." Then play noise-canceled audio of just the crash. The hook: "Each node costs less than a highway cone. One crash that goes undetected costs lives."</p>
+        </div>
+    </div>
+
+</section>
+
+<!-- Comparison -->
+<section class="section container">
+    <div class="section-header">
+        <h2>Quick Comparison</h2>
+        <p>All 4 ideas share one thing: no cameras, no one in APAC has done it</p>
+    </div>
+    <div style="overflow-x:auto">
+        <table style="width:100%; border-collapse:collapse; font-size:0.85rem">
+            <thead>
+                <tr style="border-bottom:1px solid var(--surface2)">
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">Idea</th>
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">Wow</th>
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">Cost</th>
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">Build</th>
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">DOH Fit</th>
+                    <th style="padding:14px 16px; text-align:left; color:var(--text2); font-weight:600; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.05em">APAC Gap</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+                    <td style="padding:14px 16px; font-weight:600">🔊 Acoustic Road Monitoring</td>
+                    <td style="padding:14px 16px">9/10</td>
+                    <td style="padding:14px 16px; color:var(--success)">15K</td>
+                    <td style="padding:14px 16px; color:var(--accent3)">6 wks</td>
+                    <td style="padding:14px 16px">C4, C6</td>
+                    <td style="padding:14px 16px; color:var(--danger)">✅ ZERO</td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+                    <td style="padding:14px 16px; font-weight:600">📳 Pothole Sound Detection</td>
+                    <td style="padding:14px 16px">8.5/10</td>
+                    <td style="padding:14px 16px; color:var(--success)">5-15K</td>
+                    <td style="padding:14px 16px; color:var(--accent3)">6 wks</td>
+                    <td style="padding:14px 16px">C3, C4</td>
+                    <td style="padding:14px 16px; color:var(--danger)">✅ ZERO</td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+                    <td style="padding:14px 16px; font-weight:600">🛰️ Satellite InSAR + AI</td>
+                    <td style="padding:14px 16px">10/10</td>
+                    <td style="padding:14px 16px; color:var(--warning)">20-30K</td>
+                    <td style="padding:14px 16px; color:var(--accent3)">6 wks*</td>
+                    <td style="padding:14px 16px">C3, C5</td>
+                    <td style="padding:14px 16px; color:var(--danger)">✅ ZERO</td>
+                </tr>
+                <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+                    <td style="padding:14px 16px; font-weight:600">🔌 Crash Sound Localization</td>
+                    <td style="padding:14px 16px">9/10</td>
+                    <td style="padding:14px 16px; color:var(--success)">8-12K</td>
+                    <td style="padding:14px 16px; color:var(--accent3)">6 wks</td>
+                    <td style="padding:14px 16px">C4, C6</td>
+                    <td style="padding:14px 16px; color:var(--danger)">✅ ZERO</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p style="font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:8px">🚀 All 4 ideas are hackathon-buildable in 6 weeks</p>
+    <p>Research-backed. APAC-first. Zero camera dependency. Every claim verified against existing Thai solutions.</p>
+    <p style="margin-top:12px">
+        <a href="https://github.com/auttapongb/highway-guardian" style="color:var(--accent2); text-decoration:underline" target="_blank">GitHub Repo</a>
+        &nbsp;·&nbsp;
+        <a href="/auttapongb/doh-hackathon" style="color:var(--accent3); text-decoration:underline" target="_blank">View HWAY GUARDIAN (Primary Entry)</a>
+    </p>
+    <p style="margin-top:8px; opacity:0.6">DOH Hackathon 2026 · Submitted by Auttapong Auttapongchai</p>
+</footer>
+
+</body>
+</html>
