@@ -1,0 +1,55 @@
+# HWAY GUARDIAN 2.0 — AI Engine Configuration
+# Dual YOLOv11 on Hailo-8 for road safety + maintenance
+
+# Detection modes: road_surface, safety, both (default)
+detection_mode: both
+
+vehicle:
+  id: "DOH-001"          # Unique vehicle identifier
+  gps_port: "/dev/ttyAMA0"  # U-blox GPS serial port
+  gps_baud: 9600
+
+camera:
+  source: "0"             # 0 = USB camera, or video file path
+  width: 640
+  height: 480
+  fps: 30
+  detect_every_n: 3       # Process every 3rd frame for real-time perf
+
+models:
+  pothole:
+    path: "models/pothole_yolov11n_seg.hailo"
+    type: "yolov11n-seg"   # Segmentation model for road surface defects
+    conf_threshold: 0.45
+    classes:
+      - pothole
+      - crack
+      - surface_damage
+      - road_marking_deterioration
+
+  safety:
+    path: "models/safety_yolov11n.hailo"
+    type: "yolov11n"        # Detection model for safety incidents
+    conf_threshold: 0.50
+    classes:
+      - wrong_way_vehicle
+      - stopped_vehicle
+      - accident
+      - debris
+      - pedestrian_on_road
+      - fallen_tree
+
+network:
+  api_url: "https://api.hwayguardian.com"
+  upload_realtime: true     # Upload single events immediately
+  buffer_size: 10           # Or batch when offline
+  offline_cache: 10000      # Max offline events before oldest dropped
+
+alerts:
+  line_channel_token: ""    # From LINE Developers Console
+  broadcast_on_event: true  # Send LINE push alerts
+  geo_fence_radius_km: 5    # Alert drivers within 5km of incident
+
+logging:
+  level: "INFO"
+  file: "/var/log/hway-guardian.log"

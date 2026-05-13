@@ -1,0 +1,11 @@
+# Backend
+uvicorn
+fastapi
+pydantic
+python-multipart
+requests
+psycopg2-binary
+sqlalchemy
+geoalchemy2
+uvicorn[standard]
+gunicorn

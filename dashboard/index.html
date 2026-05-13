@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HWAY GUARDIAN — ทางหลวงพิทักษ์ Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface2: #334155;
+            --accent: #3b82f6;
+            --accent2: #06b6d4;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #22c55e;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--surface2);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .subtitle {
+            color: var(--text2);
+            font-size: 0.85rem;
+            margin-left: 12px;
+        }
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            padding: 16px 24px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .stat-card .label {
+            color: var(--text2);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        .stat-card .value.danger { color: var(--danger); }
+        .stat-card .value.warning { color: var(--warning); }
+        .stat-card .value.success { color: var(--success); }
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 16px;
+            padding: 0 24px 24px;
+        }
+        #map {
+            height: 500px;
+            border-radius: 12px;
+            border: 1px solid var(--surface2);
+            background: var(--surface);
+        }
+        .incident-list {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 12px;
+            padding: 16px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .incident-list h3 {
+            font-size: 0.9rem;
+            color: var(--text2);
+            margin-bottom: 12px;
+        }
+        .incident-item {
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: var(--bg);
+            border-left: 3px solid var(--surface2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .incident-item:hover {
+            background: var(--surface2);
+        }
+        .incident-item.critical { border-left-color: var(--danger); }
+        .incident-item.high { border-left-color: var(--warning); }
+        .incident-item.medium { border-left-color: var(--accent); }
+        .incident-item .type {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .incident-item .meta {
+            display: flex;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: var(--text2);
+            margin-top: 4px;
+        }
+        .incident-item .tag {
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .tag-ai { background: rgba(59,130,246,0.2); color: var(--accent); }
+        .tag-citizen { background: rgba(34,197,94,0.2); color: var(--success); }
+        .bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding: 0 24px 24px;
+        }
+        .chart-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 12px;
+            padding: 16px;
+        }
+        .chart-card h3 {
+            font-size: 0.9rem;
+            color: var(--text2);
+            margin-bottom: 12px;
+        }
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text2);
+            font-size: 0.75rem;
+        }
+        @media (max-width: 768px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .bottom-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div>
+        <h1>🛣️ HWAY GUARDIAN <span class="subtitle">ทางหลวงพิทักษ์ — Real-time Dashboard</span></h1>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center">
+        <span id="live-badge" style="display:flex;align-items:center;gap:4px;font-size:0.75rem;color:var(--success)">
+            <span style="width:8px;height:8px;border-radius:50%;background:var(--success);display:inline-block;animation:pulse 2s infinite"></span>
+            LIVE
+        </span>
+        <span id="last-update" style="font-size:0.7rem;color:var(--text2)">—</span>
+    </div>
+</div>
+
+<div class="stats-row" id="stats">
+
+</div>
+
+<div class="main-grid">
+    <div id="map"></div>
+    <div class="incident-list">
+        <h3>⚠️ เหตุการณ์ล่าสุด</h3>
+        <div id="incidents-list"></div>
+    </div>
+</div>
+
+<div class="bottom-grid">
+    <div class="chart-card">
+        <h3>📊 เหตุการณ์ตามประเภท (24 ชม.)</h3>
+        <canvas id="typeChart" height="200"></canvas>
+    </div>
+    <div class="chart-card">
+        <h3>📈 แนวโน้ม (7 วัน)</h3>
+        <canvas id="trendChart" height="200"></canvas>
+    </div>
+</div>
+
+<footer>
+    HWAY GUARDIAN 2.0 — DOH Hackathon 2026 | ทางหลวงพิทักษ์
+</footer>
+
+<script>
+const API = window.location.origin;
+const map = L.map('map').setView([14.5, 101], 7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 18
+}).addTo(map);
+
+const severityColors = {
+    critical: '#ef4444',
+    high: '#f59e0b',
+    medium: '#3b82f6',
+    low: '#22c55e'
+};
+const typeLabels = {
+    pothole: 'หลุมบ่อ', crack: 'รอยร้าว', wrong_way: 'รถสวนทาง',
+    stopped_vehicle: 'รถจอด', accident: 'อุบัติเหตุ', debris: 'สิ่งกีดขวาง',
+    flood: 'น้ำท่วม', pedestrian: 'คนเดินบนทางหลวง',
+    surface_damage: 'ผิวถนนเสียหาย'
+};
+
+let markers = [];
+
+async function refresh() {
+    const now = new Date().toLocaleString('th-TH');
+    document.getElementById('last-update').textContent = `อัปเดตล่าสุด: ${now}`;
+
+    try {
+        const [statsRes, heatRes, incidentsRes] = await Promise.all([
+            fetch(`${API}/api/stats`),
+            fetch(`${API}/api/map/heatmap?hours=72`),
+            fetch(`${API}/api/incidents?limit=20`)
+        ]);
+
+        const stats = await statsRes.json();
+        const heat = await heatRes.json();
+        const incidents = await incidentsRes.json();
+
+        updateStats(stats);
+        updateMap(heat);
+        updateIncidents(incidents.incidents || []);
+    } catch (e) {
+        console.error('Refresh failed:', e);
+    }
+}
+
+function updateStats(stats) {
+    document.getElementById('stats').innerHTML = `
+        <div class="stat-card">
+            <div class="label">AI ตรวจจับ</div>
+            <div class="value danger">${stats.total_ai_incidents || 0}</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">รายงานจากประชาชน</div>
+            <div class="value warning">${stats.total_citizen_reports || 0}</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">วันนี้</div>
+            <div class="value">${stats.incidents_today || 0}</div>
+        </div>
+        <div class="stat-card">
+            <div class="label">กำลังดำเนินการ</div>
+            <div class="value warning">${stats.pending_reports || 0}</div>
+        </div>
+    `;
+}
+
+function updateMap(geojson) {
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    if (!geojson.features || geojson.features.length === 0) return;
+
+    geojson.features.forEach(f => {
+        const coords = f.geometry.coordinates;
+        const props = f.properties;
+        const color = severityColors[props.severity] || '#3b82f6';
+        const label = typeLabels[props.type] || props.type;
+
+        const marker = L.circleMarker([coords[1], coords[0]], {
+            radius: 8,
+            fillColor: color,
+            color: '#fff',
+            weight: 1.5,
+            opacity: 1,
+            fillOpacity: 0.7
+        }).addTo(map);
+
+        marker.bindPopup(`<b>${label}</b><br>${props.timestamp || ''}<br>${props.source || ''}`);
+        markers.push(marker);
+    });
+
+    if (markers.length > 0) {
+        const group = L.featureGroup(markers);
+        map.fitBounds(group.getBounds().pad(0.1));
+    }
+}
+
+function updateIncidents(incidents) {
+    const el = document.getElementById('incidents-list');
+    if (incidents.length === 0) {
+        el.innerHTML = '<div style="color:var(--text2);font-size:0.85rem;text-align:center;padding:20px">ไม่มีเหตุการณ์ล่าสุด</div>';
+        return;
+    }
+    el.innerHTML = incidents.map(i => {
+        const label = typeLabels[i.type] || i.type;
+        const severity = i.severity || 'medium';
+        const source = i.source || 'unknown';
+        const ts = i.created_at ? new Date(i.created_at).toLocaleString('th-TH') : '';
+        return `
+            <div class="incident-item ${severity}">
+                <div class="type">${label}</div>
+                <div class="meta">
+                    <span class="tag ${source === 'ai_edge' ? 'tag-ai' : 'tag-citizen'}">
+                        ${source === 'ai_edge' ? '🤖 AI' : '👤 ประชาชน'}
+                    </span>
+                    <span>⚠️ ${severity}</span>
+                    <span>🕐 ${ts}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+refresh();
+setInterval(refresh, 15000);
+</script>
+</body>
+</html>

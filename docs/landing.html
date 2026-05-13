@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HWAY GUARDIAN 2.0 — DOH Hackathon 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0e17;
+            --surface: #111827;
+            --surface2: #1f2937;
+            --accent: #3b82f6;
+            --accent2: #06b6d4;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --success: #22c55e;
+            --text: #e2e8f0;
+            --text2: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', 'Noto Sans Thai', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+        /* Hero */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(59,130,246,0.08) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59,130,246,0.15);
+            border: 1px solid rgba(59,130,246,0.3);
+            border-radius: 100px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .sub {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text2);
+            margin-top: 16px;
+            max-width: 700px;
+            position: relative;
+            z-index: 1;
+        }
+        .hero .challenges {
+            display: flex;
+            gap: 8px;
+            margin-top: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        .challenge-tag {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--surface2);
+            border: 1px solid var(--surface2);
+        }
+        .challenge-tag.safety { border-color: var(--danger); color: var(--danger); }
+        .challenge-tag.maint { border-color: var(--warning); color: var(--warning); }
+        .challenge-tag.digital { border-color: var(--accent); color: var(--accent); }
+
+        /* Section */
+        .section {
+            padding: 80px 0;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+        .section h2 .emoji { margin-right: 12px; }
+
+        /* Problem box */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        .problem-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 16px;
+            padding: 28px;
+        }
+        .problem-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .problem-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        .problem-card li {
+            padding: 8px 0;
+            color: var(--text2);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .problem-card li:last-child { border-bottom: none; }
+        .problem-card li::before { content: '⚠️ '; }
+
+        /* Architecture flow */
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 40px 0;
+        }
+        .flow-box {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            min-width: 160px;
+        }
+        .flow-box .icon { font-size: 2rem; margin-bottom: 8px; }
+        .flow-box .label { font-size: 0.8rem; color: var(--text2); }
+        .flow-box .label strong { color: var(--text); display: block; font-size: 0.9rem;}
+        .flow-arrow { font-size: 1.5rem; color: var(--accent); }
+
+        /* Feature cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+        .feature-card p { color: var(--text2); font-size: 0.9rem; line-height: 1.6; }
+
+        /* Comparison table */
+        .comparison {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+        }
+        .comparison th, .comparison td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface2);
+            font-size: 0.9rem;
+        }
+        .comparison th {
+            background: var(--surface);
+            font-weight: 600;
+            color: var(--text2);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .comparison tr:hover td { background: rgba(255,255,255,0.02); }
+        .comparison .check { color: var(--success); }
+        .comparison .cross { color: var(--danger); }
+        .comparison .winner { background: rgba(59,130,246,0.08); }
+
+        /* Stack grid */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        .stack-card {
+            background: var(--surface);
+            border: 1px solid var(--surface2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .stack-card .tech { font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-bottom: 4px; }
+        .stack-card .name { font-weight: 600; font-size: 1rem; }
+        .stack-card .why { font-size: 0.8rem; color: var(--text2); margin-top: 4px; }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--surface2);
+        }
+        .timeline-item {
+            padding: 0 0 32px 60px;
+            position: relative;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid var(--bg);
+        }
+        .timeline-item .week { font-weight: 700; color: var(--accent); font-size: 0.8rem; }
+        .timeline-item h4 { margin: 4px 0; font-size: 1rem; }
+        .timeline-item p { color: var(--text2); font-size: 0.85rem; }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 80px 24px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(6,182,212,0.1));
+            border-radius: 24px;
+            margin: 40px 0;
+        }
+        .cta h2 { font-size: 2rem; font-weight: 700; }
+        .cta p { color: var(--text2); margin: 16px 0 32px; font-size: 1.1rem; }
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(59,130,246,0.3); }
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--surface2);
+        }
+        .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text2);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .problem-grid { grid-template-columns: 1fr; }
+            .flow { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+            .comparison { font-size: 0.75rem; }
+            .comparison th, .comparison td { padding: 10px 12px; }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.6s ease forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-badge">🏆 DOH Hackathon 2026 · C3 + C4 + C6</div>
+    <h1>HWAY GUARDIAN 2.0</h1>
+    <h1 style="font-size:clamp(1.5rem,3vw,2.2rem);-webkit-text-fill-color:var(--text);margin-top:8px">ทางหลวงพิทักษ์</h1>
+    <p class="sub">One $120 edge-AI device on every DOH patrol vehicle that detects potholes, cracks, accidents, and wrong-way driving — while giving citizens a LINE OA to report road issues with AI verification.</p>
+    <div class="challenges">
+        <span class="challenge-tag safety">#4 Highway Safety</span>
+        <span class="challenge-tag maint">#3 Maintenance Innovation</span>
+        <span class="challenge-tag digital">#6 Digital Service</span>
+    </div>
+</section>
+
+<!-- Problem -->
+<section class="section container">
+    <h2 class="fade-in"><span class="emoji">🔥</span>The Problem</h2>
+    <div class="problem-grid">
+        <div class="problem-card fade-in delay-1">
+            <h3>🇹🇭 Thailand's Road Crisis</h3>
+            <ul>
+                <li>~20,000 road deaths/year — 9th globally</li>
+                <li>70,000+ km of DOH highways — impossible to inspect manually</li>
+                <li>Pothole/crack inspection is manual, slow, infrequent</li>
+                <li>Existing DOH CCTV cameras — manually monitored, no AI</li>
+                <li>No LINE-based channel for DOH highway issues</li>
+            </ul>
+        </div>
+        <div class="problem-card fade-in delay-2">
+            <h3>📱 Fragmented Tools</h3>
+            <ul>
+                <li>Traffy (แทรฟฟี่) — BMA city roads only, reactive, NO AI</li>
+                <li>Liv-24 Edge AI — factory safety indoor, not road</li>
+                <li>AIS/TRUE AI cameras — generic smart city, not highway</li>
+                <li>DOH legacy PMS — manual visual inspection</li>
+                <li>No integrated Safety + Maintenance + Citizen service exists</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Architecture -->
+<section class="section container">
+    <h2 class="fade-in"><span class="emoji">🏗️</span>Architecture</h2>
+    <div class="flow fade-in delay-1">
+        <div class="flow-box">
+            <div class="icon">🚐</div>
+            <div class="label"><strong>DOH Patrol Vehicle</strong>RPi5 + Hailo-8 + Camera + GPS + 4G</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+            <div class="icon">🧠</div>
+            <div class="label"><strong>Dual YOLOv11</strong>Pothole/Crack + Accident/Wrong-way</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+            <div class="icon">☁️</div>
+            <div class="label"><strong>Cloud Backend</strong>FastAPI + PostGIS + LINE API</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">
+            <div class="icon">📱</div>
+            <div class="label"><strong>LINE OA + Dashboard</strong>Proactive alerts + Public map</div>
+        </div>
+    </div>
+
+    <div class="feature-grid" style="margin-top:40px">
+        <div class="feature-card fade-in delay-1">
+            <div class="icon">🛣️</div>
+            <h3>Road Health Detection</h3>
+            <p>YOLOv11n-seg model running on Hailo-8 NPU detects potholes, cracks, and surface damage. All detections GPS-tagged with coordinates, highway number, and kilometer marker.</p>
+            <p style="margin-top:8px;color:var(--warning);font-size:0.8rem">→ Challenge #3 Maintenance</p>
+        </div>
+        <div class="feature-card fade-in delay-2">
+            <div class="icon">🚨</div>
+            <h3>Safety Incident Detection</h3>
+            <p>Second YOLOv11 model detects wrong-way driving, stopped vehicles, accidents, debris, and pedestrians on highway. Critical events trigger immediate LINE broadcast alerts.</p>
+            <p style="margin-top:8px;color:var(--danger);font-size:0.8rem">→ Challenge #4 Safety</p>
+        </div>
+        <div class="feature-card fade-in delay-3">
+            <div class="icon">📱</div>
+            <h3>LINE Citizen Engagement</h3>
+            <p>LINE Official Account @ทางหลวงพิทักษ์ where citizens report issues via photo. AI automatically verifies and classifies. Public transparency map shows all issues with fix status.</p>
+            <p style="margin-top:8px;color:var(--accent);font-size:0.8rem">→ Challenge #6 Digital Service</p>
+        </div>
+    </div>
+</section>
+
+<!-- Differentiation -->
+<section class="section container">
+    <h2 class="fade-in"><span class="emoji">⚔️</span>Vs. Existing Solutions</h2>
+    <p style="color:var(--text2);margin-bottom:24px">Real research — not assumptions. We checked every existing system in Thailand.</p>
+    <div style="overflow-x:auto" class="fade-in delay-1">
+        <table class="comparison">
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>HWAY GUARDIAN</th>
+                    <th>Traffy</th>
+                    <th>Liv-24</th>
+                    <th>AIS/TRUE</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="winner">
+                    <td><strong>Coverage</strong></td>
+                    <td>✅ DOH highways 70,000+ km</td>
+                    <td>⚠️ BMA city roads only</td>
+                    <td>❌ Factory indoor</td>
+                    <td>⚠️ Generic smart city</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>AI Auto-Detection</strong></td>
+                    <td>✅ Dual YOLOv11 on edge</td>
+                    <td>❌ Citizen reports only</td>
+                    <td>✅ Single model</td>
+                    <td>✅ AI cameras</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>Photo AI Verification</strong></td>
+                    <td>✅ YOLOv11 classifies citizen photos</td>
+                    <td>❌ None</td>
+                    <td>❌ None</td>
+                    <td>❌ None</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>Proactive LINE Alerts</strong></td>
+                    <td>✅ Push to nearby drivers</td>
+                    <td>❌ Reactive only</td>
+                    <td>❌ No LINE</td>
+                    <td>❌ No LINE</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>Hardware</strong></td>
+                    <td>✅ $120 edge box on vehicles</td>
+                    <td>❌ Phone only</td>
+                    <td>✅ Edge box (static)</td>
+                    <td>⚠️ Vendor cameras</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>DOH Workflow</strong></td>
+                    <td>✅ Auto-routed to district office</td>
+                    <td>❌ No DOH integration</td>
+                    <td>❌ No DOH integration</td>
+                    <td>❌ No DOH integration</td>
+                </tr>
+                <tr class="winner">
+                    <td><strong>Cost</strong></td>
+                    <td>✅ 14,000 THB/vehicle one-time</td>
+                    <td>✅ Free (LINE OA)</td>
+                    <td>⚠️ 50,000+ THB</td>
+                    <td>❌ Monthly fees</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- Hardware -->
+<section class="section container">
+    <h2 class="fade-in"><span class="emoji">🔧</span>Tech Stack</h2>
+    <div class="stack-grid fade-in delay-1">
+        <div class="stack-card">
+            <div class="tech">Edge AI</div>
+            <div class="name">RPi5 + Hailo-8</div>
+            <div class="why">$120, 30+ FPS dual YOLO, vehicle-mountable</div>
+        </div>
+        <div class="stack-card">
+            <div class="tech">Camera</div>
+            <div class="name">RPi Cam Module 3</div>
+            <div class="why">12MP, wide-angle, low-light capable</div>
+        </div>
+        <div class="stack-card">
+            <div class="tech">Connectivity</div>
+            <div class="name">4G HAT + GPS</div>
+            <div class="why">Real-time upload + GPS tagging</div>
+        </div>
+        <div class="stack-card">
+            <div class="tech">AI Model</div>
+            <div class="name">YOLOv11n-seg + YOLOv11n</div>
+            <div class="why">Potholes/accidents simultaneously</div>
+        </div>
+        <div class="stack-card">
+            <div class="tech">Backend</div>
+            <div class="name">FastAPI + PostGIS</div>
+            <div class="why">Real-time API, geospatial queries</div>
+        </div>
+        <div class="stack-card">
+            <div class="tech">Citizen Channel</div>
+            <div class="name">LINE Messaging API</div>
+            <div class="why">94% penetration in Thailand</div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline -->
+<section class="section container">
+    <h2 class="fade-in"><span class="emoji">📅</span>6-Week Build Plan</h2>
+    <div class="timeline fade-in delay-1">
+        <div class="timeline-item">
+            <div class="week">Week 1</div>
+            <h4>Hardware Setup</h4>
+            <p>RPi5 + Hailo-8 + camera + GPS + 4G all working and streaming video</p>
+        </div>
+        <div class="timeline-item">
+            <div class="week">Week 2</div>
+            <h4>AI Models</h4>
+            <p>Dual YOLOv11 running on Hailo-8 at 30+ FPS simultaneously</p>
+        </div>
+        <div class="timeline-item">
+            <div class="week">Week 3</div>
+            <h4>Backend + Dashboard</h4>
+            <p>FastAPI + PostGIS + Leaflet map with live incident data</p>
+        </div>
+        <div class="timeline-item">
+            <div class="week">Week 4</div>
+            <h4>LINE OA Integration</h4>
+            <p>Working LINE bot: citizen reports → AI verify → dispatch</p>
+        </div>
+        <div class="timeline-item">
+            <div class="week">Week 5</div>
+            <h4>Full Pipeline</h4>
+            <p>Camera → edge AI → cloud → LINE alert — end to end</p>
+        </div>
+        <div class="timeline-item">
+            <div class="week">Week 6</div>
+            <h4>Demo + Submission</h4>
+            <p>5-min video, working prototype, documentation, 10-slide PDF</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="container">
+    <div class="cta fade-in">
+        <h2>🏆 ร่วมเป็นส่วนหนึ่งกับ HWAY GUARDIAN</h2>
+        <p>Road safety is Thailand's #1 crisis. We have the technology, the team, and a clear path to win.</p>
+        <div class="cta-buttons">
+            <a href="https://github.com/auttapongb/highway-guardian" class="btn btn-primary" target="_blank">📂 GitHub Repo</a>
+            <a href="/auttapongb/doh-hackathon" class="btn btn-secondary">🛝 View LIVE Dashboard</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>HWAY GUARDIAN 2.0 — DOH Hackathon 2026 · Challenges #3 Maintenance · #4 Safety · #6 Digital Service</p>
+    <p style="margin-top:8px">Research-backed. Differentiated from Traffy, Liv-24, AIS/TRUE. Deployable prototype in 6 weeks.</p>
+    <p style="margin-top:4px;font-size:0.7rem">© 2026 — Submitted by Auttapong Auttapongchai</p>
+</footer>
+
+</body>
+</html>
