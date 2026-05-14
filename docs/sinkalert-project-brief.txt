@@ -1,0 +1,215 @@
+# ============================================
+# SINKALERT — PROJECT BRIEF (Downloadable)
+# DOH HACKATHON 2026
+# ============================================
+
+## QUICK LINKS
+- Google Form: https://forms.gle/BWGoRSmTFL9mu9Ua6
+- LINE Official: @dohhackth2026 (ID: @169iknck)
+- Email: dohhackth2026@gmail.com
+- Phone: 096-940-9742
+- Website: https://testdohhack2026.my.canva.site/doh-hackathon-2026
+
+---
+
+# SECTION 1: PROJECT OVERVIEW (English)
+
+## 1.1 The Problem
+Road subsidence (ถนนยุบ) is an escalating crisis in Thailand. Sinkholes and road collapses occur without warning, causing fatalities, vehicle damage, and massive economic losses. Current inspection methods rely on manual visual checks by DOH staff, which cannot detect underground voids or predict impending collapse. By the time a collapse is visible, it's too late.
+
+## 1.2 Our Solution: SinkAlert
+SinkAlert is a 3-layer AI prediction platform that assesses collapse risk for every highway segment daily.
+
+**Layer 1 — Satellite InSAR** (FREE data from ESA Sentinel-1)
+- Measures ground deformation at millimeter precision
+- Covers entire Thai highway network
+- Updated every 6-12 days
+- Open-source processing (PySAR/MintPy)
+
+**Layer 2 — Dashcam Computer Vision** (YOLOv8 on Raspberry Pi, ~$80/unit)
+- Mounted on existing DOH survey vehicles
+- Detects surface cracks, depressions, water pooling in real-time
+- GPS-tagged, uploaded via 4G
+- Open-source base code available
+
+**Layer 3 — Environmental Data**
+- Rainfall (Thai Met Dept), soil moisture, traffic load
+- These are known triggers for subsidence
+
+**ML Fusion — XGBoost**
+- Combines all 3 layers → Collapse Risk Index 0-100 per 100m road segment
+- Color-coded output: Green (safe) → Yellow (monitor) → Red (immediate action)
+
+## 1.3 Why It Wins
+- Zero satellite data cost (ESA provides free access)
+- Uses existing DOH fleet vehicles — just add $80 camera kit
+- Predictive, not reactive — forecasts collapses before they happen
+- Proven technologies (InSAR is NASA/ESA standard, YOLO is industry standard)
+- Scales nationwide for under 500,000 THB
+
+## 1.4 Pilot Plan
+- **Phase 1 (3 months):** 10 DOH vehicles + Highway 1 pilot = 50,000 THB
+- **Phase 2 (12 months):** 200 vehicles nationwide = ~500,000 THB
+
+---
+
+# SECTION 2: ภาพรวมโครงการ (ภาษาไทย)
+
+## 2.1 ปัญหา
+ถนนยุบเป็นปัญหาที่ทวีความรุนแรงขึ้นในประเทศไทย เกิดโดยไม่มีการเตือนล่วงหน้า สร้างความสูญเสียทั้งชีวิตและทรัพย์สิน การตรวจสอบถนนในปัจจุบันใช้แรงงานคน ซึ่งช้า ไม่ครอบคลุม และไม่สามารถตรวจจับโพรงใต้ดินได้
+
+## 2.2 วิธีแก้ไข: SinkAlert
+ระบบพยากรณ์ความเสี่ยงถนนยุบ 3 ชั้นข้อมูล + ปัญญาประดิษฐ์
+
+**ชั้นที่ 1 — ดาวเทียม InSAR (ข้อมูลฟรีจาก ESA Sentinel-1)**
+- วัดการเคลื่อนตัวของพื้นดินระดับมิลลิเมตร
+- ครอบคลุมทุกเส้นทางหลวงของไทย
+- อัปเดตทุก 6-12 วัน
+- ซอฟต์แวร์โอเพนซอร์ส (PySAR/MintPy)
+
+**ชั้นที่ 2 — กล้องหน้ารถ + AI (YOLOv8 บน Raspberry Pi ~2,800 บาท/คัน)**
+- ติดตั้งบนรถสำรวจของกรมทางหลวงที่มีอยู่แล้ว
+- ตรวจจับรอยแตก แอ่ง น้ำขัง หลุมบ่อ แบบ Real-time
+- จับพิกัด GPS อัปโหลดผ่าน 4G
+- มีโค้ดโอเพนซอร์สให้ศึกษา
+
+**ชั้นที่ 3 — ข้อมูลสภาพแวดล้อม**
+- ปริมาณฝน (กรมอุตุนิยมวิทยา), ความชื้นดิน, ปริมาณจราจร
+- ปัจจัยเหล่านี้เป็นตัวกระตุ้นให้เกิดถนนยุบ
+
+**AI รวมข้อมูล — XGBoost**
+- นำข้อมูลทั้ง 3 ชั้นมาคำนวณ → ค่าความเสี่ยง 0-100 ต่อทุก 100 เมตร
+- สีเขียว = ปลอดภัย, สีเหลือง = เฝ้าระวัง, สีแดง = เสี่ยงสูง
+
+## 2.3 ทำไมถึงชนะ
+- ข้อมูลดาวเทียมฟรี (ESA ให้ใช้ฟรีทั่วโลก)
+- ใช้รถ DOH ที่มีอยู่แล้ว ไม่ต้องซื้อรถใหม่
+- พยากรณ์ล่วงหน้า ไม่ใช่รอให้ถนนพังแล้วค่อยซ่อม
+- เทคโนโลยี proven แล้ว (InSAR ใช้โดย NASA/ESA, YOLO มาตรฐานวงการ)
+- ขยายทั่วประเทศด้วยงบไม่เกิน 500,000 บาท
+
+## 2.4 แผนนำร่อง
+- **เฟส 1 (3 เดือน):** รถ DOH 10 คัน + ถนนหมายเลข 1 = 50,000 บาท
+- **เฟส 2 (12 เดือน):** 200 คันทั่วประเทศ = ~500,000 บาท
+
+---
+
+# SECTION 3: SUBMISSION REQUIREMENTS
+
+## 3.1 What to Submit
+Choose ONE format:
+
+**Option A — Presentation (PDF):**
+- Max 10 slides + 5 appendix slides
+- PDF format, max 50 MB
+- Upload to Google Drive (public link)
+
+**Option B — Video:**
+- Max 5 minutes
+- 1080p (Full HD) or min 720p
+- Max 250 MB
+- Upload to YouTube (unlisted) or Google Drive (public link)
+
+**Language:** Thai or English or both
+
+## 3.2 5 Core Pillars (Must Cover in Submission)
+1. **Problem Identification** — What is the pain point? Show data/evidence
+2. **Data-Driven Evidence** — Statistics, research, engineering theory
+3. **Proposed Solution & Prototype** — How it works, what it does
+4. **Impact & Scalability** — Cost savings, accident reduction, national scale
+5. **Roadmap & Budget** — Timeline, phased implementation, realistic costs
+
+## 3.3 Key Dates
+| Event | Date |
+|-------|------|
+| Registration + Submission | April 1 — May 15, 2026 |
+| First Round Selection | May 16 — May 31 |
+| Semi-Final | Mid-June (Hybrid) |
+| Mentoring | Late June |
+| Final Round | Mid-July (On-site Bangkok) |
+
+---
+
+# SECTION 4: TEAM TASK LIST (CHECKLIST)
+
+## Phase 1: TODAY — Assign Roles
+- [ ] Project Lead (coordination, pitch)
+- [ ] Content Writer (slides copy, problem description)
+- [ ] Designer (Canva slides, diagrams, mockup)
+- [ ] Tech Lead (InSAR, YOLO, ML explanation)
+- [ ] Video Producer (record/edit 5-min video)
+
+## Phase 2: TODAY-TOMORROW — Build Assets
+### Slides (10 slides)
+- [ ] Slide 1: Title + Team name
+- [ ] Slide 2: Problem (ถนนยุบ — show news clips/stats)
+- [ ] Slide 3: Why Now (climate, AI, opportunity)
+- [ ] Slide 4: Solution Overview (3-layer diagram)
+- [ ] Slide 5: Layer 1 — Satellite InSAR
+- [ ] Slide 6: Layer 2 — Dashcam AI
+- [ ] Slide 7: Layer 3 + ML Fusion
+- [ ] Slide 8: Dashboard Demo/Mockup
+- [ ] Slide 9: Pilot Plan & Budget
+- [ ] Slide 10: Impact + Team
+
+### Video (5 minutes)
+- [ ] 0:00-0:45 — Problem (news clips)
+- [ ] 0:45-1:30 — Solution overview
+- [ ] 1:30-2:30 — How it works (technical)
+- [ ] 2:30-3:30 — Demo (dashboard mockup)
+- [ ] 3:30-4:15 — Pilot plan + budget
+- [ ] 4:15-5:00 — Impact + Vision Zero
+
+### Technical Demo (optional but recommended)
+- [ ] Python XGBoost prototype (2 hours to build)
+- [ ] Dashboard mockup screenshot (Canva/Figma)
+- [ ] Sample InSAR map of Highway 1
+
+## Phase 3: SUBMISSION
+- [ ] PDF exported (10 slides + 5 appendix max)
+- [ ] Video uploaded (YouTube unlisted or Google Drive)
+- [ ] All links set to PUBLIC
+- [ ] Test links in incognito browser
+- [ ] Google Form submitted
+- [ ] LINE official joined (@dohhackth2026)
+- [ ] Wait for confirmation email (within 7 days)
+
+---
+
+# SECTION 5: RESOURCES
+
+| Resource | URL |
+|----------|-----|
+| Google Form (Submit) | https://forms.gle/BWGoRSmTFL9mu9Ua6 |
+| LINE Official | @dohhackth2026 |
+| ESA Sentinel-1 (free data) | https://scihub.copernicus.eu |
+| PySAR/MintPy (open-source InSAR) | https://github.com/insarlab/MintPy |
+| YOLOv8 | https://github.com/ultralytics/ultralytics |
+| RPi Dashcam (forkable code) | https://github.com/SubhayanBiswas/Anomaly-Detection-Dashcam-Raspberrypi |
+| XGBoost | https://github.com/dmlc/xgboost |
+| CesiumJS 3D Globe | https://cesium.com/platform/cesiumjs/ |
+| DOH Hackathon Website | https://testdohhack2026.my.canva.site/doh-hackathon-2026 |
+| Full Project Brief (this file) | /root/sinkalert_project_brief_full.txt |
+
+---
+
+# SECTION 6: JUDGING CRITERIA — HOW SINKALERT SCORES
+
+| Criteria | Weight | How SinkAlert Scores |
+|----------|--------|---------------------|
+| Innovation & Creativity | 30% | InSAR for road collapse prediction = FIRST in Thailand |
+| Feasibility & Practicality | 25% | Proven tech stack, low cost, uses existing DOH fleet |
+| Impact & Value | 25% | Directly prevents deaths, saves billions in damage |
+| Presentation & Q&A | 20% | Strong story arc: satellite → AI → lives saved |
+
+**Estimated Total: 93/100**
+
+---
+
+# SECTION 7: SLIDE CONTENT (Copy-Paste Ready)
+
+*[See /root/sinkalert_slides.md for full slide-by-slide content]*
+
+---
+
+*End of Project Brief — SinkAlert: Predict. Prevent. Protect.*
